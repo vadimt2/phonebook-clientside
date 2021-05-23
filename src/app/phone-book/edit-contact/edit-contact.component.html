@@ -1,0 +1,63 @@
+<mat-toolbar class="toolbar" color="primary">
+  <span >Edit Contact</span>
+</mat-toolbar>
+
+<div class="container" novalidate> 
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+
+      <mat-form-field class="form-element">
+          <input matInput placeholder="First Name" formControlName="firstName">
+        </mat-form-field>
+
+    <mat-form-field class="form-element">
+      <input matInput placeholder="Last Name" formControlName="lastName">
+    </mat-form-field>
+
+    <mat-form-field class="form-element">
+      <input matInput placeholder="Street Address" formControlName="streetAddress">
+    </mat-form-field>
+
+    <mat-form-field class="form-element">
+      <input matInput placeholder="City" formControlName="city">
+    </mat-form-field>
+
+    <mat-form-field class="form-element">
+      <mat-label>Enter your zip code</mat-label>
+      <input (keypress)="numberOnly($event)" minlength="5" maxlength="7" pattern="[0-9]*" matInput placeholder="12345" formControlName="zipCode" required>
+      <mat-error *ngIf="formGroup.controls['zipCode'].invalid || !formGroup.controls['zipCode'].touched">
+        {{ titleAlert }}
+      </mat-error>
+      <mat-error *ngIf="!formGroup.controls['zipCode'].hasError('pattern')">
+        Zip code should be 5 digit number or more.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-element">
+      <mat-label>Enter your phone number</mat-label>
+      <input (keypress)="isNumberKey($event)" matInput placeholder="054-991-3556" formControlName="phoneNumber" required>
+      <mat-error *ngIf="formGroup.controls['phoneNumber'].invalid || !formGroup.controls['phoneNumber'].touched">
+        {{ titleAlert }}
+      </mat-error>
+      <mat-error *ngIf="formGroup.controls['phoneNumber'].hasError('pattern')">
+        Phone number should be 9-10 digit number or 054-991-3556 or 088-542-773 or without dashes.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-element">
+      <mat-label>Enter your email</mat-label>
+      <input matInput placeholder="vadimt2@gmail.com" formControlName="email" required>
+      <mat-error *ngIf="formGroup.controls['email'].invalid || !formGroup.controls['email'].touched">
+          {{getErrorEmail()}}
+      </mat-error>
+    </mat-form-field>
+    <div class="form-element">
+      <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid">Submit Form</button>
+    </div>
+    <mat-error *ngIf="error$| ngrxPush; let error">
+      {{error.status}}
+    </mat-error>
+    <button mat-icon-button color="primary" aria-label="Go back" [routerLink]="['/']">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </form>
+</div>
